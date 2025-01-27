@@ -10,8 +10,6 @@ import exceptions.*;
 
 public class ApplicationHandlerImpl implements ApplicationHandler {
     public long login(String username, String password) throws InvalidCredentialsException{
-        System.out.println(username);
-        System.out.println(password);
         if (!username.equals("Ryan") || !password.equals("password")) {
             throw new InvalidCredentialsException("Invalid credentials");
         }

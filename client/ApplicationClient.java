@@ -24,7 +24,15 @@ public class ApplicationClient {
             String name = "ApplicationHandler";
             Registry registry = LocateRegistry.getRegistry(registryport);
             ApplicationHandler handler = (ApplicationHandler) registry.lookup(name);
-            System.out.println(handler.login("Ryan", "password"));
+            long id = handler.login("Ryan", "password");
+            ApplicationForm form = handler.getApplicationForm(id);
+            for (int i = 1; i <= form.numberOfQuestions(); i++) {
+                System.out.println(form.getQuestion(i));
+                System.out.print("Answer for question " + i + ": ");
+                String answer = System.console().readLine();
+                form.setAnswer(i, answer);
+            }
+            handler.submitApplicationForm(id, form);
         } catch (Exception e) {
             System.err.println("ApplicationClient exception:");
             e.printStackTrace();

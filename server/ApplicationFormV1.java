@@ -1,12 +1,15 @@
 package server;
 
 import interfaces.ApplicationForm;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import exceptions.InvalidQuestionNumberException;
 
-public class ApplicationFormV1 implements ApplicationForm {
+public class ApplicationFormV1 implements ApplicationForm, Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private Map<Integer, String> questions;
     private Map<Integer, String> answers;
 
@@ -30,25 +33,25 @@ public class ApplicationFormV1 implements ApplicationForm {
         if (questions.containsKey(questionNumber)) {
             answers.put(questionNumber, answer);
         } else {
-            throw new InvalidQuestionNumberException("Invalid question number");
+            throw new InvalidQuestionNumberException("Invalid question number: " + questionNumber);
         }
     }
 
     @Override
     public String getQuestion(int questionNumber) throws InvalidQuestionNumberException {
-        return questions.get(questionNumber);
-    }
-
-    public String getAnswer(int questionNumber) {
-        return answers.get(questionNumber);
+        if (questions.containsKey(questionNumber)) {
+            return questions.get(questionNumber);
+        } else {
+            throw new InvalidQuestionNumberException("Invalid question number: " + questionNumber);
+        }
     }
 
     @Override
     public String toString() {
-        String output = "";
+        StringBuilder sb = new StringBuilder();
         for (int i = 1; i <= questions.size(); i++) {
-            output += questions.get(i) + ":" + answers.get(i) + "\n";
+            sb.append(questions.get(i) + ": " + answers.get(i) + "\n");
         }
-        return output;
+        return sb.toString();
     }
 }
