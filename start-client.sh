@@ -1,1 +1,1 @@
-java -cp ./compute.jar:. client.ComputePi 20345 45
+java -cp ./distributed-systems.jar:. client.ApplicationClient 20345 45

@@ -1,1 +1,1 @@
-java -cp ./compute.jar:. engine.ComputeEngine 20345
+java -cp ./distributed-systems.jar:. server.ApplicationServer 20345
