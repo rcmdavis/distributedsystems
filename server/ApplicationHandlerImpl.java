@@ -32,10 +32,14 @@ public class ApplicationHandlerImpl implements ApplicationHandler {
     }
 
     // Implementation of submitApplicationForm method - writing the application form to a file
+    @Override
     public void submitApplicationForm(long sessionID, ApplicationForm form) {
         try {
-            Files.write(Paths.get("application_form_" + sessionID + ".txt"), form.toString().getBytes());
-        } catch (IOException e) {
+            String firstName = form.getAnswer(1);
+            String secondName = form.getAnswer(2);
+            Files.write(Paths.get("application_form_" + firstName + "_" + secondName + ".txt"), 
+                form.toString().getBytes());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

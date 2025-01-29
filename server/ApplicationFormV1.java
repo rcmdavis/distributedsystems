@@ -19,11 +19,12 @@ public class ApplicationFormV1 implements ApplicationForm, Serializable {
     public ApplicationFormV1() {
         questions = new HashMap<>();
         answers = new HashMap<>();
-        questions.put(1, "What is your name?");
-        questions.put(2, "What is your address?");
-        questions.put(3, "What is your email?");
-        questions.put(4, "What is your contact number?");
-        questions.put(5, "Please provide a personal statement.");
+        questions.put(1, "What is your first name?");
+        questions.put(2, "What is your second name?");
+        questions.put(3, "What is your address?");
+        questions.put(4, "What is your email?");
+        questions.put(5, "What is your contact number?");
+        questions.put(6, "Please provide a personal statement.");
     }
 
     // Implementation of generalInformation method - providing general information about the application forms
@@ -38,6 +39,35 @@ public class ApplicationFormV1 implements ApplicationForm, Serializable {
         return questions.size();
     }
 
+    // Implementation of getQuestion method - getting the question corresponding to a given question number
+    @Override
+    public String getQuestion(int questionNumber) throws InvalidQuestionNumberException {
+        // Check the questions map for the question
+        if (questions.containsKey(questionNumber)) {
+            // Return the question at the given question number location
+            return questions.get(questionNumber);
+        } else {
+            // If the question is invalid, throw an exception
+            throw new InvalidQuestionNumberException("Invalid question number: " + questionNumber);
+        }
+    }
+
+    // Implementation of the getAnswer method - getting the answer to a given question
+    @Override
+    public String getAnswer(int questionNumber) throws InvalidQuestionNumberException {
+        // Check the questions map for the question
+        if (answers.containsKey(questionNumber)) {
+            // Return the question at the given question number location
+            return answers.get(questionNumber);
+        } else if (questions.containsKey(questionNumber)) {
+            // Return "" if the question is unanswered
+            return "";
+        } else {
+            // If the question is invalid, throw an exception
+            throw new InvalidQuestionNumberException("Invalid question number: " + questionNumber);
+        }
+    }
+
     // Implementation of setAnswer method - setting the answer to a given question
     @Override
     public void setAnswer(int questionNumber, String answer) throws InvalidQuestionNumberException {
@@ -45,19 +75,6 @@ public class ApplicationFormV1 implements ApplicationForm, Serializable {
         if (questions.containsKey(questionNumber)) {
             // Update the answers map with the answer
             answers.put(questionNumber, answer);
-        } else {
-            // If the question is invalid, throw an exception
-            throw new InvalidQuestionNumberException("Invalid question number: " + questionNumber);
-        }
-    }
-
-    // Implementation of getAnswer method - getting the answer to a given question
-    @Override
-    public String getQuestion(int questionNumber) throws InvalidQuestionNumberException {
-        // Check the questions map for the question
-        if (questions.containsKey(questionNumber)) {
-            // Return the question at the given question number location
-            return questions.get(questionNumber);
         } else {
             // If the question is invalid, throw an exception
             throw new InvalidQuestionNumberException("Invalid question number: " + questionNumber);

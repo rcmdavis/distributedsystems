@@ -14,6 +14,9 @@ public interface ApplicationForm {
     // Throws InvalidQuestionNumberException if the question number is invalid
     String getQuestion(int questionNumber) throws InvalidQuestionNumberException;
 
+    // Get the answer to the question at the specified question number
+    String getAnswer(int questionNumber) throws InvalidQuestionNumberException;
+
     // Set the answer to the question at the specified question number
-    void setAnswer(int questionNumber, String answer) throws InvalidQuestionNumberException; 
+    void setAnswer(int questionNumber, String answer) throws InvalidQuestionNumberException;
 }
