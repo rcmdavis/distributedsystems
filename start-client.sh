@@ -1,1 +1,1 @@
-java -cp ./distributed-systems.jar:. client.ApplicationClient 20345 45
+java -cp ./distributed-systems.jar:. client.ApplicationClient 20345

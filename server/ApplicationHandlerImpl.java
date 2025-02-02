@@ -2,13 +2,16 @@ package server;
 
 import interfaces.*;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 import exceptions.*;
 
 public class ApplicationHandlerImpl implements ApplicationHandler {
+    // hashmap to store session IDs and their respective timestamps
+    private HashMap<Long, Long> ids = new HashMap<Long, Long>();
+
     // Implementation of login method - checking if the (hardcoded) username and password are correct
     @Override
     public long login(String username, String password) throws InvalidCredentialsException{
@@ -17,16 +20,29 @@ public class ApplicationHandlerImpl implements ApplicationHandler {
             throw new InvalidCredentialsException("Invalid credentials");
         }
 
-        // TODO: Return timestamp/random number as session ID and implement validation
-        return 1234567890;
+        Long id;
+        do {    // Generate new session ID until a unique one is found
+            id = Long.valueOf((long)(Math.random() * (999999L)));
+        } while (ids.containsKey(id));
+        
+        Long currentTime = System.currentTimeMillis();
+
+        ids.put(id, currentTime);
+        
+        return id;
     }
 
 
     // Implementation of getApplicationForm method - returning an application form
     @Override
     public ApplicationForm getApplicationForm(long sessionID) throws InvalidSessionIDException{
-        if (sessionID != 1234567890) {
+        
+        //check that the session id exists and that it was created less than 10 minutes ago
+        if (!(ids.containsKey(sessionID))) {
             throw new InvalidSessionIDException("Invalid session ID");
+        }
+        else if (System.currentTimeMillis() > (ids.get(sessionID) + 600000L)){
+            throw new InvalidSessionIDException("Session timed out");
         }
         return new ApplicationFormV1();
     }

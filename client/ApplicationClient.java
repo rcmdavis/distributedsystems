@@ -21,8 +21,23 @@ public class ApplicationClient {
             Registry registry = LocateRegistry.getRegistry(registryport);
             ApplicationHandler handler = (ApplicationHandler) registry.lookup(name);
 
-            // Login with the hardcoded credentials
-            long id = handler.login("Ryan", "password");
+
+            System.out.print("Enter username: ");
+            String username = System.console().readLine();
+            System.out.print("Enter password: ");
+            String password = System.console().readLine();
+
+            // Login with the user-entered credentials
+            long id = handler.login(username, password);
+
+            System.out.println("ID: " + id);
+
+            System.out.print("Press Enter To Continue: ");
+            System.console().readLine();
+
+            // // Code to manually enter ID
+            // System.out.print("Enter ID To Continue: ");
+            // id = Long.valueOf(System.console().readLine());
 
             // Get the application form using the session ID and fill it out
             ApplicationForm form = handler.getApplicationForm(id);
